@@ -1,0 +1,247 @@
+import java.util.Scanner; 
+import java.time.LocalDate; 
+import java.util.ArrayList; 
+class UserDetails { 
+private String firstName; 
+private String lastName; 
+private String phoneNumber; 
+public UserDetails(String firstName, String lastName, String phoneNumber) {
+this.firstName = firstName; 
+this.lastName = lastName; 
+this.phoneNumber = phoneNumber; 
+} 
+// Getter methods 
+public String getFirstName() 
+{ 
+    return firstName; 
+} 
+public String getLastName() { 
+return lastName; 
+} 
+public String getPhoneNumber() 
+{
+    return phoneNumber; 
+} 
+} 
+class User { 
+private int userId; 
+private String username; 
+private String password; 
+private String email; 
+public User(int userId, String username, String password, String email) 
+{ 
+this.userId = userId; 
+this.username = username; 
+this.password = password; 
+this.email = email; 
+} 
+public int getUserId() 
+{
+    return userId; 
+} 
+public String getUsername() 
+{
+    return username; 
+} 
+// Other getter methods for password and email 
+public static User registration() { 
+Scanner scanner = new Scanner(System.in); 
+System.out.print("Enter username: "); 
+String username = scanner.nextLine(); 
+System.out.print("Enter password: "); 
+String password = scanner.nextLine(); 
+System.out.print("Enter email: "); 
+String email = scanner.nextLine(); 
+System.out.println("Registration successful!"); 
+return new User(1, username, password, email); // Hardcoded user ID for simplicity 
+} 
+public static User login() { 
+Scanner scanner = new Scanner(System.in); 
+System.out.print("Enter username: "); 
+String username = scanner.nextLine(); 
+System.out.print("Enter password: "); 
+String password = scanner.nextLine(); 
+// Perform login validation (not implemented in this basic example) 
+System.out.println("Login successful!"); 
+return new User(1, username, password, "dummy@example.com"); 
+} 
+} 
+class Expense { 
+private int expenseId; 
+private String expenseItem; 
+private double amount; 
+private String note; 
+private LocalDate createdOn; 
+public Expense(int expenseId, String expenseItem, double amount, String 
+note, LocalDate createdOn) { 
+this.expenseId = expenseId; 
+this.expenseItem = expenseItem; 
+this.amount = amount; 
+this.note = note; 
+this.createdOn = createdOn; 
+} 
+// Getter methods 
+public String getExpenseItem() 
+{ return expenseItem; 
+} 
+public double getAmount() 
+{ return amount; 
+} 
+public String getNote() 
+{ return note; 
+} 
+public LocalDate getCreatedOn() 
+{ return createdOn; 
+} 
+public static Expense addExpense() { 
+Scanner scanner = new Scanner(System.in); 
+System.out.print("Enter expense item: "); 
+String expenseItem = scanner.nextLine(); 
+System.out.print("Enter amount: "); 
+double amount = scanner.nextDouble(); 
+scanner.nextLine(); // Consume newline 
+System.out.print("Enter note: "); 
+String note = scanner.nextLine(); 
+LocalDate createdOn = LocalDate.now(); 
+System.out.println("Expense added successfully!"); 
+return new Expense(1, expenseItem, amount, note, createdOn); 
+} 
+public static void viewExpenses(ArrayList<Expense> expensesList) {
+System.out.println("Viewing expenses..."); 
+for (Expense expense : expensesList) { 
+System.out.println("Item: " + expense.getExpenseItem() + ", Amount: ₹" 
++ expense.getAmount() + ", Note: " + expense.getNote() + ", Date: " 
++ expense.getCreatedOn()); 
+} 
+} 
+} 
+class Income { 
+private int incomeId; 
+private double amount; 
+private String note; 
+private LocalDate createdOn; 
+private String jobRole; 
+public Income(int incomeId, double amount, String note, LocalDate 
+createdOn, String jobRole) { 
+this.incomeId = incomeId; 
+this.amount = amount; 
+this.note = note; 
+this.createdOn = createdOn; 
+this.jobRole = jobRole; 
+} 
+// Getter methods 
+public double getAmount() 
+{ return amount; 
+} 
+public String getNote() 
+{ return note; 
+} 
+public LocalDate getCreatedOn() 
+{ return createdOn; 
+} 
+public String getJobRole() { 
+return jobRole; 
+} 
+public static Income addIncome() { 
+Scanner scanner = new Scanner(System.in); 
+System.out.print("Enter amount: "); 
+double amount = scanner.nextDouble(); 
+scanner.nextLine(); 
+System.out.print("Enter note: "); 
+String note = scanner.nextLine(); 
+System.out.print("Enter job role: "); 
+String jobRole = scanner.nextLine(); 
+LocalDate createdOn = 
+LocalDate.now(); 
+System.out.println("Income added successfully!"); 
+return new Income(1, amount, note, createdOn, jobRole); 
+} 
+public static void viewIncomes(ArrayList<Income> incomesList) {
+System.out.println("Viewing incomes..."); 
+for (Income income : incomesList) { 
+System.out.println("Amount: ₹" + income.getAmount() + ", Note: " 
++ income.getNote() + ", Job Role: " + income.getJobRole() + ", Date: " + 
+income.getCreatedOn()); 
+} 
+} 
+} 
+public class BudgetManager { 
+private static ArrayList<Expense> expensesList = new ArrayList<>();
+private static ArrayList<Income> incomesList = new ArrayList<>(); 
+public static void main(String[] args) { 
+//public static void main(String args[]){
+Scanner scanner = new Scanner(System.in); 
+// User registration or login 
+User currentUser = null; 
+System.out.println("Welcome to Budget Manager Console"); 
+System.out.println("1. Register"); 
+System.out.println("2. Login"); 
+System.out.print("Enter your choice: "); 
+int choice = scanner.nextInt(); 
+if (choice == 1) { 
+currentUser = User.registration(); 
+} else if (choice == 2) { 
+currentUser = 
+User.login(); 
+} else { 
+System.out.println("Invalid choice. Exiting..."); 
+System.exit(0); 
+} 
+double totalExpenses = 0; 
+double totalIncomes = 0; 
+// Main menu 
+do { 
+System.out.println("\n1. Add Expense"); 
+System.out.println("2. View Expenses"); 
+System.out.println("3. Add Income"); 
+System.out.println("4. View Incomes"); 
+System.out.println("5. View Net Balance");
+System.out.println("6. Exit"); 
+System.out.print("Enter your choice: "); 
+choice = scanner.nextInt(); 
+switch (choice) 
+{ case 1: 
+expensesList.add(Expense.addExpense()); 
+break; 
+case 2: 
+Expense.viewExpenses(expensesList); 
+break; 
+case 3: 
+incomesList.add(Income.addIncome()); 
+break; 
+case 4: 
+Income.viewIncomes(incomesList); 
+break; 
+case 5: 
+totalExpenses = 
+getTotalExpenses(); totalIncomes = 
+getTotalIncomes(); 
+double netBalance = totalIncomes - totalExpenses; 
+System.out.println("Total Expenses: ₹" + totalExpenses); 
+System.out.println("Total Incomes: ₹" + totalIncomes); 
+System.out.println("Net Balance: ₹" + netBalance); 
+break; 
+case 6: 
+System.out.println("Exiting...")
+ ; break; 
+default: 
+System.out.println("Invalid choice. Please try again."); 
+} 
+} while (choice != 6); 
+scanner.close(); 
+} 
+private static double getTotalExpenses() { 
+double totalExpenses = 0; 
+for (Expense expense : expensesList) { 
+totalExpenses += expense.getAmount(); 
+} 
+return totalExpenses; 
+} 
+private static double getTotalIncomes() { 
+double totalIncomes = 0; 
+for (Income income : incomesList) { 
+totalIncomes += income.getAmount(); 
+} 
+return totalIncomes; 
+} 
+} 
